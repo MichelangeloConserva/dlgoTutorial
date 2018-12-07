@@ -13,7 +13,7 @@ except:
     _readme = ''
 
 setup(
-  name='financePy',
+  name='dlgoTutorial',
   packages=find_packages(exclude=EXCLUDE_FROM_PACKAGES),
   version='0.1',
   description='',
