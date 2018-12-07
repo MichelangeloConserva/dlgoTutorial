@@ -21,11 +21,11 @@ def print_move(player, move):
 def print_board(board):
     for row in range(board.num_rows, 0, -1):
         line = []
-        for col in range(1,board.num_col +1):
+        for col in range(1,board.num_cols +1):
             stone = board.get(gotypes.Point(row=row,col=col))
             line.append(STONE_TO_CHAR[stone])
-        print('{row} {''.join(line)}')
-    print('   {COLS[:board.num_cols]}')
+        print(f'{row} {"".join(line)}')
+    print(f'  {COLS[:board.num_cols]}')
 
 
 

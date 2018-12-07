@@ -27,35 +27,35 @@ class Move():
 # Since it is computationally demanding to store each stone on its own due to
 # the fact that we have to count its liberties taking into account its
 # neighbors' ones we define connected group of them as String
-class GoString():
+class GoString():  # <1>
     def __init__(self, color, stones, liberties):
         self.color = color
         self.stones = set(stones)
-        self.liberties = set(liberties) # neighbor points without stone
-    
-    def remove_liberty(self,point):
+        self.liberties = set(liberties)
+
+    def remove_liberty(self, point):
         self.liberties.remove(point)
-    
-    def add_liberty(self,point):
+
+    def add_liberty(self, point):
         self.liberties.add(point)
-        
-    def merged_with(self, go_string):
+
+    def merged_with(self, go_string):  # <2>
         assert go_string.color == self.color
         combined_stones = self.stones | go_string.stones
         return GoString(
             self.color,
             combined_stones,
-            (self.liberties | self.liberties) - combined_stones)
-    
+            (self.liberties | go_string.liberties) - combined_stones)
+
     @property
     def num_liberties(self):
         return len(self.liberties)
-    
+
     def __eq__(self, other):
         return isinstance(other, GoString) and \
-               self.color == other.color   and \
-               self.stones == other.stones and \
-               self.liberties == other.liberties
+            self.color == other.color and \
+            self.stones == other.stones and \
+self.liberties == other.liberties
                
     
     
@@ -76,7 +76,7 @@ class Board():
         for neighbor in point.neighbors():
             if not self.is_on_grid(neighbor):
                 continue
-            neighbor_string = self.grid_.get(neighbor)
+            neighbor_string = self._grid.get(neighbor)
             if neighbor_string is None:
                 liberties.append(point)
             elif neighbor_string.color == player:
@@ -96,7 +96,7 @@ class Board():
             self._grid[new_string_point] = new_string
         # makeing opponent aware of the new stone on the board
         for other_color_string in adjacent_opposite_color:
-            other_color_string.remove_libertiy(point)
+            other_color_string.remove_liberty(point)
         # eliminating captured strings
         for other_color_string in adjacent_opposite_color:
             if other_color_string.num_liberties == 0:
@@ -172,6 +172,9 @@ class GameState():
         if not move.is_play:
             return False
         next_board = copy.deepcopy(self.board)
+        
+        print(f"\n\n\n {move.point.row,move.point.col} \n\n")
+        
         next_board.place_stone(player, move.point)
         new_string = next_board.get_go_string(move.point)
         return new_string.num_liberties == 0

@@ -1,15 +1,19 @@
 from setuptools import setup, find_packages
 
-import glob
+EXCLUDE_FROM_PACKAGES = []
 
+try:
+    with open('LICENSE.txt', 'r') as f:
+        _license = f.read()
+except:
+    _license = ''
 
-data_files = []
-directories = glob.glob('dlgo/agent?')
-for directory in directories:
-    files = glob.glob(directory+'*')
-    data_files.append((directory, files))
-    
-    
+try:
+    with open('README.md', 'r') as f:
+        _readme = f.read()
+except:
+    _readme = ''
+
 setup(
   name='dlgoTutorial',
   version='0.1',
