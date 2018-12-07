@@ -14,7 +14,6 @@ except:
 
 setup(
   name='dlgoTutorial',
-  packages=find_packages(exclude=EXCLUDE_FROM_PACKAGES),
   version='0.1',
   description='',
   author='Michelangelo Conserva',
