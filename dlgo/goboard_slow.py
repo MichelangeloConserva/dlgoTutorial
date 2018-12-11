@@ -98,7 +98,7 @@ class Board():
         for other_color_string in adjacent_opposite_color:
             other_color_string.remove_liberty(point)
         # eliminating captured strings
-        for other_color_string in adjacent_opposite_color:
+        for other_color_string in adjacent_opposite_color:  
             if other_color_string.num_liberties == 0:
                 self._remove_string(other_color_string)
     
@@ -139,17 +139,15 @@ class GameState():
         self.next_player = next_player
         self.previous_state = previous
         self.last_move = move
-        
-    def apply_move(self, player, move):
-        if player != self.next_player:
-            raise ValueError(player)
+
+    def apply_move(self, move):  # <1>
         if move.is_play:
             next_board = copy.deepcopy(self.board)
-            next_board.place_stone(player, move.point)
+            next_board.place_stone(self.next_player, move.point)
         else:
             next_board = self.board
-        return GameState(next_board, player.other, self, move)
-    
+        return GameState(next_board, self.next_player.other, self, move)
+
     @classmethod
     def new_game(cls, board_size):
         if isinstance(board_size, int):
@@ -172,9 +170,6 @@ class GameState():
         if not move.is_play:
             return False
         next_board = copy.deepcopy(self.board)
-        
-        print(f"\n\n\n {move.point.row,move.point.col} \n\n")
-        
         next_board.place_stone(player, move.point)
         new_string = next_board.get_go_string(move.point)
         return new_string.num_liberties == 0

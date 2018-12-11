@@ -1,7 +1,3 @@
-# -*- coding: utf-8 -*-
-
-
-
 import random 
 from .base import Agent
 from .helpers import is_point_an_eye
