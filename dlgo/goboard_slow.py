@@ -4,7 +4,6 @@ import copy
 from dlgo.gotypes import Player
 # end::imports[]
 from dlgo.gotypes import Point
-from dlgo.scoring import compute_game_result
 
 __all__ = [
     'Board',
