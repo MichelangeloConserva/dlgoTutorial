@@ -211,7 +211,7 @@ class GameState():
         next_board = copy.deepcopy(self.board)
         next_board.place_stone(player, move.point)
         next_situation = (player.other, next_board.zobrist_hash())
-        return next_situation in self.previous_state
+        return next_situation in self.previous_states
 
     def is_valid_move(self, move):
         if self.is_over():
