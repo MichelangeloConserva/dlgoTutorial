@@ -55,7 +55,7 @@ class GoString():  # <1>
         return isinstance(other, GoString) and \
             self.color == other.color and \
             self.stones == other.stones and \
-self.liberties == other.liberties
+            self.liberties == other.liberties
                
     
     
