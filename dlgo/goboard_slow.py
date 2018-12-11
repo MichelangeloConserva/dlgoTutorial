@@ -1,8 +1,6 @@
 import numpy as np
-# tag::imports[]
 import copy
 from dlgo.gotypes import Player
-# end::imports[]
 from dlgo.gotypes import Point
 
 __all__ = [
@@ -16,7 +14,6 @@ class IllegalMoveError(Exception):
     pass
 
 
-# tag::strings[]
 class GoString():  # <1>
     def __init__(self, color, stones, liberties):
         self.color = color
@@ -46,22 +43,14 @@ class GoString():  # <1>
             self.color == other.color and \
             self.stones == other.stones and \
             self.liberties == other.liberties
-# <1> Go strings are stones that are linked by a chain of connected stones of the same color.
-# <2> Return a new Go string containing all stones in both strings.
-# end::strings[]
 
-
-# tag::board_init[]
 class Board():  # <1>
     def __init__(self, num_rows, num_cols):
         self.num_rows = num_rows
         self.num_cols = num_cols
         self._grid = {}
 
-# <1> A board is initialized as empty grid with the specified number of rows and columns.
-# end::board_init[]
 
-# tag::board_place_0[]
     def place_stone(self, player, point):
         assert self.is_on_grid(point)
         assert self._grid.get(point) is None
@@ -82,8 +71,7 @@ class Board():  # <1>
                     adjacent_opposite_color.append(neighbor_string)
         new_string = GoString(player, [point], liberties)
 # <1> First, we examine direct neighbors of this point.
-# end::board_place_0[]
-# tag::board_place_1[]
+
         for same_color_string in adjacent_same_color:  # <1>
             new_string = new_string.merged_with(same_color_string)
         for new_string_point in new_string.stones:
@@ -96,9 +84,7 @@ class Board():  # <1>
 # <1> Merge any adjacent strings of the same color.
 # <2> Reduce liberties of any adjacent strings of the opposite color.
 # <3> If any opposite color strings now have zero liberties, remove them.
-# end::board_place_1[]
 
-# tag::board_remove[]
     def _remove_string(self, string):
         for point in string.stones:
             for neighbor in point.neighbors():  # <1>
@@ -109,9 +95,7 @@ class Board():  # <1>
                     neighbor_string.add_liberty(point)
             self._grid[point] = None
 # <1> Removing a string can create liberties for other strings.
-# end::board_remove[]
 
-# tag::board_utils[]
     def is_on_grid(self, point):
         return 1 <= point.row <= self.num_rows and \
             1 <= point.col <= self.num_cols
@@ -129,7 +113,6 @@ class Board():  # <1>
         return string
 # <1> Returns the content of a point on the board:  a Player if there is a stone on that point or else None.
 # <2> Returns the entire string of stones at a point: a GoString if there is a stone on that point or else None.
-# end::board_utils[]
 
     def __eq__(self, other):
         return isinstance(other, Board) and \
@@ -138,7 +121,6 @@ class Board():  # <1>
             self._grid == other._grid
 
 
-# tag::moves[]
 class Move():  # <1>
     def __init__(self, point=None, is_pass=False, is_resign=False):
         assert (point is not None) ^ is_pass ^ is_resign
@@ -162,10 +144,8 @@ class Move():  # <1>
 # <2> This move places a stone on the board.
 # <3> This move passes.
 # <4> This move resigns the current game
-# end::moves[]
 
 
-# tag::game_state[]
 class GameState():
     def __init__(self, board, next_player, previous, move):
         self.board = board
@@ -188,9 +168,7 @@ class GameState():
         board = Board(*board_size)
         return GameState(board, Player.black, None, None)
 # <1> Return the new GameState after applying the move.
-# end::game_state[]
 
-# tag::self_capture[]
     def is_move_self_capture(self, player, move):
         if not move.is_play:
             return False
@@ -198,9 +176,7 @@ class GameState():
         next_board.place_stone(player, move.point)
         new_string = next_board.get_go_string(move.point)
         return new_string.num_liberties == 0
-# end::self_capture[]
 
-# tag::is_ko[]
     @property
     def situation(self):
         return (self.next_player, self.board)
@@ -217,9 +193,7 @@ class GameState():
                 return True
             past_state = past_state.previous_state
         return False
-# end::is_ko[]
 
-# tag::is_valid_move[]
     def is_valid_move(self, move):
         if self.is_over():
             return False
@@ -229,9 +203,7 @@ class GameState():
             self.board.get(move.point) is None and
             not self.is_move_self_capture(self.next_player, move) and
             not self.does_move_violate_ko(self.next_player, move))
-# end::is_valid_move[]
 
-# tag::is_over[]
     def is_over(self):
         if self.last_move is None:
             return False
@@ -241,7 +213,6 @@ class GameState():
         if second_last_move is None:
             return False
         return self.last_move.is_pass and second_last_move.is_pass
-# end::is_over[]
 
     def legal_moves(self):
         moves = []
