@@ -173,8 +173,8 @@ class GameState():
             self.previous_states = frozenset()
         else:
             self.previous_states = frozenset(
-                    previous.previous_state | 
-                    {(previous.next_player, previous.board.zobrist_hast())})
+                    previous.previous_states | 
+                    {(previous.next_player, previous.board.zobrist_hash())})
         self.last_move = move
 
     def apply_move(self, move):  # <1>
