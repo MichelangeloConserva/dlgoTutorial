@@ -135,7 +135,7 @@ class Board():  # <1>
             self._grid == other._grid
             
     
-    def zobrist_hast(self):
+    def zobrist_hash(self):
         return self._hash
 
 
