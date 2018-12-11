@@ -2,7 +2,7 @@ import numpy as np
 import copy
 from dlgo.gotypes import Player
 from dlgo.gotypes import Point
-from dlgo.zobrist import zobrist
+from dlgo import zobrist
 
 __all__ = [
     'Board',
