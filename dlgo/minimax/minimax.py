@@ -47,8 +47,8 @@ def reverse_game_result(game_result):
     if game_result == GameResult.loss:
         return GameResult.win
     if game_result == GameResult.win:
-        return GameResult.loss.value
-    return GameResult.draw.value
+        return GameResult.loss
+    return GameResult.draw
 
 class MinimaxAgent(Agent):
     def select_move(self, game_state):
