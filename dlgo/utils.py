@@ -34,8 +34,8 @@ def point_from_coords(coords):
     return gotypes.Point(row,col)
 
 
-
-
+def coords_from_point(point):
+    return f'{COLS[point.col-1]}{point.row}'
 
 
 
