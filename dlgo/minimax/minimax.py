@@ -34,7 +34,7 @@ def best_result(game_state):
     # if not over we recursively look into the future
     best_result_so_far = GameResult.loss
     for candidate_move in game_state.legal_moves():
-        next_state = game_state.apply(candidate_move)
+        next_state = game_state.apply_move(candidate_move)
         opponent_best_result = best_result(next_state)
         our_result= reverse_game_result(opponent_best_result)
         if our_result > best_result_so_far.value:
