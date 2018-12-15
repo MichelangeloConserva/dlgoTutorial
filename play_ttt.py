@@ -1,4 +1,4 @@
-from dlgo import minimax
+from dlgo.minimax import minimax
 from dlgo import ttt
 
 from six.moves import input
@@ -11,10 +11,10 @@ def print_board(board):
     for row in (1, 2, 3):
         pieces = []
         for col in (1, 2, 3):
-            piece = board.get(ttt.Point(row, col))
-            if piece == ttt.Player.x:
+            piece = board.get(ttt.tttboard.Point(row, col))
+            if piece == ttt.ttttypes.Player.x:
                 pieces.append('X')
-            elif piece == ttt.Player.o:
+            elif piece == ttt.ttttypes.Player.o:
                 pieces.append('O')
             else:
                 pieces.append(' ')
@@ -24,13 +24,13 @@ def print_board(board):
 def point_from_coords(text):
     col_name = text[0]
     row = int(text[1])
-    return ttt.Point(row, COL_NAMES.index(col_name) + 1)
+    return ttt.tttboard.Point(row, COL_NAMES.index(col_name) + 1)
 
 
 def main():
-    game = ttt.GameState.new_game()
+    game = ttt.tttboard.GameState.new_game()
 
-    human_player = ttt.Player.x
+    human_player = ttt.ttttypes.Player.x
     # bot_player = ttt.Player.o
 
     bot = minimax.MinimaxAgent()
@@ -40,7 +40,7 @@ def main():
         if game.next_player == human_player:
             human_move = input('-- ')
             point = point_from_coords(human_move.strip())
-            move = ttt.Move(point)
+            move = ttt.tttboard.Move(point)
         else:
             move = bot.select_move(game)
         game = game.apply_move(move)
