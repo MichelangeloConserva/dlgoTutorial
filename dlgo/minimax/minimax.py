@@ -37,7 +37,7 @@ def best_result(game_state):
         next_state = game_state.apply_move(candidate_move)
         opponent_best_result = best_result(next_state)
         our_result= reverse_game_result(opponent_best_result)
-        if our_result > best_result_so_far.value:
+        if our_result.value > best_result_so_far.value:
             best_result_so_far = our_result
     return best_result_so_far
     
