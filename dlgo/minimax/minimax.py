@@ -26,10 +26,10 @@ def best_result(game_state):
     """
     if game_state.is_over():
         if game_state.winner() == game_state.next_player:
-            return GameResult.win
+            return GameResult.win.value
         if game_state.winner() is None:
-            return GameResult.draw
-        return GameResult.loss
+            return GameResult.draw.value
+        return GameResult.loss.value
     
     # if not over we recursively look into the future
     best_result_so_far = GameResult.loss
